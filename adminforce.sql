@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2018 a las 17:30:09
+-- Tiempo de generación: 09-12-2018 a las 21:48:35
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -27,6 +27,49 @@ USE `adminforce`;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `historial`
+--
+
+DROP TABLE IF EXISTS `historial`;
+CREATE TABLE IF NOT EXISTS `historial` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `type` varchar(200) NOT NULL,
+  `blocked` tinyint(1) NOT NULL,
+  `blockeddate` datetime DEFAULT NULL,
+  `userblock` int(11) DEFAULT NULL,
+  `object` varchar(200) DEFAULT NULL,
+  `userStoryCopado` varchar(200) DEFAULT NULL,
+  `dev` varchar(200) NOT NULL,
+  `userStoryJira` varchar(200) DEFAULT NULL,
+  `unblockeddate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `object`
+--
+
+DROP TABLE IF EXISTS `object`;
+CREATE TABLE IF NOT EXISTS `object` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `type` varchar(200) NOT NULL,
+  `blocked` tinyint(1) NOT NULL,
+  `blockeddate` datetime DEFAULT NULL,
+  `userblock` int(11) DEFAULT NULL,
+  `object` varchar(200) DEFAULT NULL,
+  `userStoryCopado` varchar(200) DEFAULT NULL,
+  `dev` varchar(200) NOT NULL,
+  `userStoryJira` varchar(200) DEFAULT NULL,
+  `unblockeddate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `user`
 --
 
@@ -42,14 +85,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Active` tinyint(1) NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `user`
---
-
-INSERT INTO `user` (`Id`, `Name`, `Email`, `Dev`, `User`, `Password`, `Connection`, `Active`) VALUES
-(1, 'Adrián Torralba Román', 'atorralbar@ayesa.com', 'R1F1', 'atorralbar@ayesa.com.r1f1', '4a6dbb2ff650f82af801f71c3efd72c3', '0000-00-00 00:00:00', 0),
-(2, 'Sergio González Hidalgo', 'sgonzalezh@ayesa.com', 'R1F1', 'sgonzalezh@ayesa.com.r1f1', '4a6dbb2ff650f82af801f71c3efd72c3', '0000-00-00 00:00:00', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

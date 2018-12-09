@@ -11,9 +11,9 @@
                 <h1>Bienvenido <?php echo $username; ?>!</h1>
             </div>
             <div class="row justify-content-md-center mt-4">
-                <a class="btn btn-primary" href="compilacion">
+                <a class="btn btn-primary" href="index.php/BlockObject">
                     <span class="oi oi-arrow-thick-top"></span>
-                    Acciones
+                    Bloquear
                 </a>
             </div>
             <div class="row justify-content-md-center mt-3">

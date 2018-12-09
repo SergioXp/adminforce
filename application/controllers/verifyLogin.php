@@ -7,7 +7,7 @@ class VerifyLogin extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('empleado', '', TRUE);
+        $this->load->model('user', '', TRUE);
     }
 
     function index() {
@@ -26,7 +26,9 @@ class VerifyLogin extends CI_Controller {
         log_message('debug', 'checkdatabase');
         $username = $this->input->post('username');
 
-        $result = $this->empleado->login($username, $password);
+        $result = $this->user->login($username, $password);
+
+        log_message('debug', 'el logiiiinnnn ' . print_r($result, true));
 
         if ($result) {
             log_message('debug', 'Usuario encontrado');
@@ -34,7 +36,7 @@ class VerifyLogin extends CI_Controller {
             foreach ($result as $row) {
                 $sess_array = array(
                     'id' => $row->ID,
-                    'username' => $row->NOMBRE
+                    'username' => $row->name
                 );
                 log_message('debug', 'Array ' . print_r($sess_array, true));
                 $this->session->set_userdata($sess_array);
