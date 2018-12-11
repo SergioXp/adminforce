@@ -17,19 +17,19 @@
                 </a>
             </div>
             <div class="row justify-content-md-center mt-3">
-                <a class="btn btn-primary" href="historial">
+                <a class="btn btn-primary" href="index.php/History_Controller">
                     <span class="oi oi-list"></span>
                     Historial
                 </a>
             </div>
             <div class="row justify-content-md-center mt-3">
-                <a class="btn btn-primary" href="perfil">
+                <a class="btn btn-primary" href="index.php/Profile_Controller">
                     <span class="oi oi-person"></span>
                     Perfil
                 </a>
             </div>
             <div class="row justify-content-md-center mt-3">
-                <a class="btn btn-danger" href="home/logout">
+                <a class="btn btn-danger" href="index.php/login/logout">
                     <span class="oi oi-account-logout"></span>
                     Logout
                 </a>

@@ -79,7 +79,7 @@
                         </select>
 					</div>
 
-                    <input type="submit" class="btn btn-primary" value="Block"/>
+                    <input type="submit" class="btn btn-primary" value="block"/>
                     </form>
                 </div>
 
@@ -101,7 +101,8 @@
                         </thead>
                         <tbody>
                             <?php
-                                if (is_array($objectsByUser))
+                                if(is_array($objectsByUser))
+								{
                                     log_message('debug', 'porque petas puta ' .print_r($objectsByUser, true));
                                     foreach ($objectsByUser as $key => $object){
                             ?>
@@ -114,10 +115,10 @@
                             <td><?= $object->userStoryJira ?></td>
                             <td><?= $object->dev ?></td>
                             <td class="text-center">
-                                <?php echo anchor('blockObject/unblock/'.$object->id, '<i class="far fa-times-circle"></i>', 'class="link-class"') ?>
+                                <?php echo anchor('blockObject/unblock/'.$object->id, '<i class="far fa-times-circle"></i>', 'class="link-class"'); ?>
                             </td>
                             </tr>
-                                <?php } ?>
+									<?php }} ?>
                         </tbody>
                     </table>
                 </div>

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class BlockObject extends CI_Controller {
+class Profile_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -16,7 +16,7 @@ class BlockObject extends CI_Controller {
 
         $data['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
 
-        $this->load->view('form_object_view', $data);
+        $this->load->view('Form_Profile_View', $data);
     }
 
     function block (){
