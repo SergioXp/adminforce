@@ -79,8 +79,9 @@
                         </select>
 					</div>
 
-                    <input type="submit" class="btn btn-primary" value="block"/>
+                    <input type="submit" class="btn btn-primary" value="block"/>                   
                     </form>
+                    
                 </div>
 
                 <div class="col col-md-8 mt-1">
@@ -122,6 +123,10 @@
                         </tbody>
                     </table>
                 </div>
+            </div>            
+            
+            <div class='row justify-content-end'>                               
+                <a class="btn btn-warning" href="<?php echo site_url() ?>">Atrás</a>
             </div>
         </div>
     </body>

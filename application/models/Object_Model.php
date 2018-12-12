@@ -71,6 +71,9 @@ Class Object_Model extends CI_Model {
 
             $objectReturn = $this->getObject($objectReturn[0]->id, null, null, null);
 
+            $objectReturn[0]->action = "Bloqueo";
+            $objectReturn[0]->id = null;
+
             $this->db->insert('historial', $objectReturn[0]);
 
             $return['return'] = 'update';
@@ -94,11 +97,12 @@ Class Object_Model extends CI_Model {
                 'userblock' => $this->session->userdata('id'),
                 'object' => $object,
                 'userStoryJira' => $userStoryJira,
-                'dev' => $dev
+                'dev' => $dev                
             );
 
             $this->db->insert('object', $data);
 
+            $data['action'] = "Bloqueo";
             $this->db->insert('historial', $data);
 
             $return['return'] = 'insert';
@@ -113,16 +117,25 @@ Class Object_Model extends CI_Model {
 
         log_message('debug', 'Modelo Object_Model Metodo unblockObject()');
 
+        $objectReturn = $this->getObject($id, null, null, null);
+
         $data = array(
             'blocked' => false,
-            'blockeddate' => date("Y-m-d H:i:s"),
+            //'blockeddate' => date("Y-m-d H:i:s"),
             'unblockeddate' => date("Y-m-d H:i:s"),
             'userblock' => null,
             'userStoryJira' => null,
-            'dev' => null
+            'dev' => null            
         );
 
+
         $this->db->update('object', $data, 'id = '.$id);
+        
+
+        $objectReturn[0]->action = "Desbloqueo";
+        $objectReturn[0]->id = null;
+
+        $this->db->insert('historial', $objectReturn[0]);
     }
 
 }

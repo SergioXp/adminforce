@@ -8,7 +8,8 @@ class BlockObject extends CI_Controller {
     function __construct() {
         parent::__construct();
 		$this->load->model('User_Model', '', TRUE);
-		$this->load->model('Object_Model', '', TRUE);
+        $this->load->model('Object_Model', '', TRUE);
+        $this->load->model('History_Model', '', TRUE);
     }
 
     function index() {
@@ -56,6 +57,7 @@ class BlockObject extends CI_Controller {
         log_message('debug', 'unblock');
 
         $return = $this->Object_Model->unblockObject($id);
+        $this->load->view('form_object_view', $return);
 
     }
 }

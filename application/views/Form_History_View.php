@@ -12,13 +12,11 @@
     <body>
         <div class="container">
             <div class="row mt-5">
-                <h2>Historial de Objetos</h2>
+                <h1>Historial de Objetos</h1>
             </div>
             <div class="row">
 
-                <div class="col col-md-8 mt-1">
-                    <h3>Objetos bloqueados por tu usuario</h3>
-
+                <div class="col col-md-12 mt-5 col-s-1">
                     <table class="table">
                         <thead>
                             <tr>
@@ -26,10 +24,12 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Objeto</th>
-                                <th scope="col">Fecha de bloqueo</th>
+                                <th scope="col">Acción</th>
+                                <th scope="col">Usuario Bloqueo</th>
+                                <th scope="col">Fecha bloqueo</th>
+                                <th scope="col">Fecha desbloqueo</th>                                
                                 <th scope="col">Jira US</th>
-                                <th scope="col">Dev</th>
-                                <th scope="col">Desbloqueo</th>
+                                <th scope="col">Dev</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -40,39 +40,25 @@
                                     foreach ($objectsByUser as $key => $object){
                             ?>
                             <tr>
-                            <th scope="row"><? = $key + 1 ?></th>
+                            <th scope="row"><?= $key + 1 ?></th>
                             <td><?= $object->name ?></td>
                             <td><?= $object->type ?></td>
                             <td><?= $object->object ?></td>
+                            <td><?= $object->action ?></td>
+                            <td><?= $object->userblock ?></td>
                             <td><?= $object->blockeddate ?></td>
+                            <td><?= $object->unblockeddate ?></td>                            
                             <td><?= $object->userStoryJira ?></td>
-                            <td><?= $object->dev ?></td>
-                            <td class="text-center">
-									<?php echo anchor('blockObject/unblock/'.$object->id, '<i class="far fa-times-circle"></i>', 'class="link-class"'); ?>
-                            </td>
+                            <td><?= $object->dev ?></td>                            
                             </tr>
 									<?php }} ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+            <div class='row justify-content-end'>                               
+                <a class="btn btn-warning" href="<?php echo site_url() ?>">Atrás</a>
+            </div>
+        </div>              
     </body>
-
-    <script>
-
-        $(document).ready(function (){
-            $('#nameMultiple').hide();
-        });
-
-        function multiple (){
-            if ($('#nameMultiple').is(":visible")){
-                $('#nameMultiple').hide();
-                $('#name').show();
-            } else {
-                $('#nameMultiple').show();
-                $('#name').hide();
-            }
-        }
-    </script>
 </html>

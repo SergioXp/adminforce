@@ -17,7 +17,7 @@ Class History_Model extends CI_Model {
 	function getHistorial($id = null, $name = null, $type = null, $object = null, $blockeddate = null, $unbblockeddate = null, $userStoryCopado = null, $userStoryJira = null, $dev = null){
         log_message('debug', 'Modelo History_Model Metodo getHistorial()');
 
-        $this->db->select('id, name, type, blocked, blockeddate, unblockeddate, userblock, object, userStoryCopado, userStoryJira, dev');
+        $this->db->select('id, name, type, blocked, blockeddate, unblockeddate, userblock, object,action, userStoryCopado, userStoryJira, dev');
 		$this->db->from('historial');
 
 		if ($id != null) $this->db->where('id', $id);

@@ -32,7 +32,7 @@ USE `adminforce`;
 
 DROP TABLE IF EXISTS `historial`;
 CREATE TABLE IF NOT EXISTS `historial` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `blocked` tinyint(1) NOT NULL,
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `object` varchar(200) DEFAULT NULL,
   `userStoryCopado` varchar(200) DEFAULT NULL,
   `dev` varchar(200) NOT NULL,
+  `action` varchar(200) NOT NULL,
   `userStoryJira` varchar(200) DEFAULT NULL,
   `unblockeddate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
