@@ -133,6 +133,7 @@ Class Object_Model extends CI_Model {
         
 
         $objectReturn[0]->action = "Desbloqueo";
+        $objectReturn[0]->unblockeddate = date("Y-m-d H:i:s");
         $objectReturn[0]->id = null;
 
         $this->db->insert('historial', $objectReturn[0]);

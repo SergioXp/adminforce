@@ -42,12 +42,15 @@ class BlockObject extends CI_Controller {
                 $arrayReturn[$object] = $return;
             }
 
+            $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
             $this->load->view('form_object_view', $arrayReturn);
 
         } else {
             $return = $this->Object_Model->blockObject($name, $type, $object, $userStoryJira, $dev);
             log_message('debug', 'return block ' . print_r($return, true));
 
+            $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
+            
             $this->load->view('form_object_view', $return);
         }
     }
@@ -57,6 +60,7 @@ class BlockObject extends CI_Controller {
         log_message('debug', 'unblock');
 
         $return = $this->Object_Model->unblockObject($id);
+        $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
         $this->load->view('form_object_view', $return);
 
     }
