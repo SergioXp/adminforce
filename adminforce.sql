@@ -87,6 +87,22 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Estructura de tabla para la tabla `lobby`
+--
+
+DROP TABLE IF EXISTS `lobby`;
+CREATE TABLE IF NOT EXISTS `lobby` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `ObjectId` int(11) DEFAULT NULL,
+  `UserId` int(11) DEFAULT NULL,
+  `Waiting` tinyint(1) NOT NULL,
+  `DatePetition` datetime NOT NULL,
+  `DateAsign` datetime NOT NULL,  
+  PRIMARY KEY (`id`)	
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
 -- Volcado de datos para la tabla `user`
 --
 

@@ -17,7 +17,7 @@
             <div class="row">
 
                 <div class="col col-md-4 mt-1">
-                    <?php echo validation_errors(); ?>
+                    <?php echo validation_errors(); ?>                    
                     <?php echo form_open('blockObject/block'); ?>
 
                     <div class="form-group mt-4">

@@ -50,7 +50,7 @@ class BlockObject extends CI_Controller {
             log_message('debug', 'return block ' . print_r($return, true));
 
             $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
-            
+
             $this->load->view('form_object_view', $return);
         }
     }

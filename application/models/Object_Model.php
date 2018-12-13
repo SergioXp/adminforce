@@ -82,6 +82,30 @@ Class Object_Model extends CI_Model {
             return $return;
 
         } else if ($objectReturn && $objectReturn[0]->blocked) {
+            
+            if( $objectReturn[0]->userblock)
+            {
+                $return['return'] = 'blockedRightNow';
+                $return['error'] = true;
+                $return['msg'] = 'Objeto ya bloqueado por el mismo usuario';
+                $return['object'] = $objectReturn;
+                
+                $this->object_error->set_message('blockObject', 'Ya tienes bloqueado este objeto peich!');
+
+                return  $return;
+            }
+            
+            $data = array(
+                'ObjectId' => $objectReturn[0]->id,
+                'UserId' => $this->session->userdata('id'),
+                'Waiting' => true,
+                'DatePetition' => date("Y-m-d H:i:s"),
+                //'DateAsign' => $dev
+            );
+
+            $this->db->insert('lobby',$data);
+            
+            
             $return['return'] = 'blockedRightNow';
             $return['error'] = true;
             $return['object'] = $objectReturn;
