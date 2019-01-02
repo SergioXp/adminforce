@@ -14,11 +14,35 @@
             <div class="row mt-5">
                 <h2>Bloqueo de objetos</h2>
             </div>
+
+            <?php if (isset($notifications) && is_array($notifications)){ ?>
+            <div class="row justify-content-center">
+                <div class="alert alert-primary" role="alert">
+                    Los siguientes objetos se te han asignado automáticamente por estar en cola.
+                    <ul>
+                    <?php
+                        foreach ($notifications as $notification) {
+                            echo '<li><strong>'. $notification->object .'</strong> el día ' . date_format(date_create($notification->date), 'd-m-Y H:i:s') . '</li>';
+                        }
+                    ?>
+                    </ul>
+                </div>
+            </div>
+            <?php } ?>
+
             <div class="row">
 
                 <div class="col col-md-4 mt-1">
-                    <?php echo validation_errors(); ?>                    
-                    <?php echo form_open('blockObject/block'); ?>
+
+                    <?php
+                        if (isset($error) && $error == 1){ ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?=$msg?>
+                            </div>
+                        <?php }
+                    ?>
+
+                    <?php echo form_open('Block_Controller/block'); ?>
 
                     <div class="form-group mt-4">
                         <button type="button" class="btn btn-primary" onclick="multiple()">Multiple bloqueo</button>
@@ -67,10 +91,10 @@
                         <input class="form-control" type="text" size="20" id="object" name="object"/>
 					</div>
 
-					<div class="form-group">
+					<!--<div class="form-group">
                         <label for="userStoryJira">Jira US</label>
                         <input class="form-control" type="text" size="20" id="userStoryJira" name="userStoryJira"/>
-					</div>
+					</div>-->
 
 					<div class="form-group">
 						<label for="dev">DEV</label>
@@ -79,9 +103,9 @@
                         </select>
 					</div>
 
-                    <input type="submit" class="btn btn-primary" value="block"/>                   
+                    <input type="submit" class="btn btn-primary" value="Bloquear"/>
                     </form>
-                    
+
                 </div>
 
                 <div class="col col-md-8 mt-1">
@@ -95,16 +119,13 @@
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Objeto</th>
                                 <th scope="col">Fecha de bloqueo</th>
-                                <th scope="col">Jira US</th>
                                 <th scope="col">Dev</th>
                                 <th scope="col">Desbloqueo</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                if(is_array($objectsByUser))
-								{
-                                    log_message('debug', 'porque petas puta ' .print_r($objectsByUser, true));
+                                if(is_array($objectsByUser)) {
                                     foreach ($objectsByUser as $key => $object){
                             ?>
                             <tr>
@@ -113,19 +134,19 @@
                             <td><?= $object->type ?></td>
                             <td><?= $object->object ?></td>
                             <td><?= $object->blockeddate ?></td>
-                            <td><?= $object->userStoryJira ?></td>
                             <td><?= $object->dev ?></td>
                             <td class="text-center">
-                                <?php echo anchor('blockObject/unblock/'.$object->id, '<i class="far fa-times-circle"></i>', 'class="link-class"'); ?>
+                                <?php echo anchor('Block_Controller/unblock/'.$object->id, '<i class="far fa-times-circle"></i>', 'class="link-class"'); ?>
                             </td>
                             </tr>
-									<?php }} ?>
+                                    <?php }
+                                } ?>
                         </tbody>
                     </table>
                 </div>
-            </div>            
-            
-            <div class='row justify-content-end'>                               
+            </div>
+
+            <div class='row justify-content-end'>
                 <a class="btn btn-warning" href="<?php echo site_url() ?>">Atrás</a>
             </div>
         </div>

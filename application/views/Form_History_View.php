@@ -27,38 +27,40 @@
                                 <th scope="col">Acción</th>
                                 <th scope="col">Usuario Bloqueo</th>
                                 <th scope="col">Fecha bloqueo</th>
-                                <th scope="col">Fecha desbloqueo</th>                                
-                                <th scope="col">Jira US</th>
-                                <th scope="col">Dev</th>                                
+                                <th scope="col">Fecha desbloqueo</th>
+                                <th scope="col">Dev</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                if (is_array($objectsByUser))								
-								{
-                                    log_message('debug', 'porque petas puta ' .print_r($objectsByUser, true));
+                                if (is_array($objectsByUser)) {
                                     foreach ($objectsByUser as $key => $object){
                             ?>
                             <tr>
-                            <th scope="row"><?= $key + 1 ?></th>
+                            <th scope="row"><?= $object->id ?></th>
                             <td><?= $object->name ?></td>
                             <td><?= $object->type ?></td>
                             <td><?= $object->object ?></td>
                             <td><?= $object->action ?></td>
-                            <td><?= $object->userblock ?></td>
+                            <td><?= $object->username ?></td>
                             <td><?= $object->blockeddate ?></td>
-                            <td><?= $object->unblockeddate ?></td>                            
-                            <td><?= $object->userStoryJira ?></td>
-                            <td><?= $object->dev ?></td>                            
+                            <td><?= $object->unblockeddate ?></td>
+                            <td><?= $object->dev ?></td>
                             </tr>
-									<?php }} ?>
+                                    <?php }
+                                } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class='row justify-content-end'>                               
+
+            <?php if (isset($links)) { ?>
+                <?php echo $links ?>
+            <?php } ?>
+
+            <div class='row justify-content-end'>
                 <a class="btn btn-warning" href="<?php echo site_url() ?>">Atrás</a>
             </div>
-        </div>              
+        </div>
     </body>
 </html>

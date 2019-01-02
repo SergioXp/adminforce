@@ -9,15 +9,16 @@ Class Object_Model extends CI_Model {
     public $blockeddate;
     public $userblock;
     public $object;
-    public $userStoryCopado;
+    //public $userStoryCopado;
     public $dev;
-    public $userStoryJira;
+    //public $userStoryJira;
     public $unblockeddate;
 
 	function getObject($id, $name, $type, $object){
         log_message('debug', 'Modelo Object_Model Metodo getObject()');
 
-        $this->db->select('id, name, type, blocked, blockeddate, unblockeddate, userblock, object, userStoryCopado, userStoryJira, dev');
+        //$this->db->select('id, name, type, blocked, blockeddate, unblockeddate, userblock, object, userStoryCopado, userStoryJira, dev');
+        $this->db->select('id, name, type, blocked, blockeddate, unblockeddate, userblock, object, dev');
         $this->db->from('object');
         if ($id != null) $this->db->where('id', $id);
         if ($name != null) $this->db->where('name', $name);
@@ -37,7 +38,8 @@ Class Object_Model extends CI_Model {
 
         log_message('debug', 'Modelo Object_Model Metodo getObjectsBlockByUser()');
 
-        $this->db->select('id, name, type, blocked, blockeddate, userblock, object, userStoryCopado, userStoryJira, dev');
+        //$this->db->select('id, name, type, blocked, blockeddate, userblock, object, userStoryCopado, userStoryJira, dev');
+        $this->db->select('id, name, type, blocked, blockeddate, userblock, object, dev');
         $this->db->from('object');
         $this->db->where('userblock', $this->session->userdata('id'));
 
@@ -51,19 +53,26 @@ Class Object_Model extends CI_Model {
 
     }
 
-    function blockObject($name, $type, $object, $userStoryJira, $dev){
+    //function blockObject($name, $type, $object, $userStoryJira, $dev){
+    function blockObject($name, $type, $object, $dev, $user = null){
+
+        $this->load->model('Lobby_Model');
 
         log_message('debug', 'Modelo Object_Model Metodo blockObject()');
 
         $objectReturn = $this->getObject(null, $name, $type, $object);
+
+        if ($user == null){
+            $user = $this->session->userdata('id');
+        }
 
         if ($objectReturn && !$objectReturn[0]->blocked){
 
             $data = array(
                 'blocked' => true,
                 'blockeddate' => date("Y-m-d H:i:s"),
-                'userblock' => $this->session->userdata('id'),
-                'userStoryJira' => $userStoryJira,
+                'userblock' => $user,
+                //'userStoryJira' => $userStoryJira,
                 'dev' => $dev
             );
 
@@ -82,19 +91,16 @@ Class Object_Model extends CI_Model {
             return $return;
 
         } else if ($objectReturn && $objectReturn[0]->blocked) {
-            
-            if( $objectReturn[0]->userblock)
-            {
+
+            if( $objectReturn[0]->userblock == $this->session->userdata('id')) {
                 $return['return'] = 'blockedRightNow';
                 $return['error'] = true;
-                $return['msg'] = 'Objeto ya bloqueado por el mismo usuario';
+                $return['msg'] = 'Objeto bloqueado por <strong>TU</strong> usuario.';
                 $return['object'] = $objectReturn;
-                
-                $this->object_error->set_message('blockObject', 'Ya tienes bloqueado este objeto peich!');
 
                 return  $return;
             }
-            
+
             $data = array(
                 'ObjectId' => $objectReturn[0]->id,
                 'UserId' => $this->session->userdata('id'),
@@ -103,13 +109,25 @@ Class Object_Model extends CI_Model {
                 //'DateAsign' => $dev
             );
 
-            $this->db->insert('lobby',$data);
-            
-            
-            $return['return'] = 'blockedRightNow';
-            $return['error'] = true;
-            $return['object'] = $objectReturn;
-            return  $return;
+            $lobbyObject = $this->Lobby_Model->getLobbyByObject($objectReturn[0]->id, 1, $this->session->userdata('id'));
+
+            if (!is_array($lobbyObject)){
+                log_message('debug', 'Antes de guardar en el lobby ' . print_r($lobbyObject, true) );
+
+                $this->db->insert('lobby', $data);
+
+                $return['return'] = 'blockedInLobby';
+                $return['error'] = true;
+                $return['msg'] = 'Estás en la cola para este objeto.';
+                $return['object'] = $objectReturn;
+                return  $return;
+            } else {
+                $return['return'] = 'blockedInLobby';
+                $return['error'] = true;
+                $return['msg'] = 'Ya te encontrabas en la cola para este objeto.';
+                $return['object'] = $objectReturn;
+                return  $return;
+            }
 
         } else {
 
@@ -118,10 +136,10 @@ Class Object_Model extends CI_Model {
                 'type' => $type,
                 'blocked' => true,
                 'blockeddate' => date("Y-m-d H:i:s"),
-                'userblock' => $this->session->userdata('id'),
+                'userblock' => $user,
                 'object' => $object,
-                'userStoryJira' => $userStoryJira,
-                'dev' => $dev                
+                //'userStoryJira' => $userStoryJira,
+                'dev' => $dev
             );
 
             $this->db->insert('object', $data);
@@ -139,6 +157,8 @@ Class Object_Model extends CI_Model {
 
     function unblockObject($id){
 
+        $this->load->model('Lobby_Model', '', TRUE);
+
         log_message('debug', 'Modelo Object_Model Metodo unblockObject()');
 
         $objectReturn = $this->getObject($id, null, null, null);
@@ -148,19 +168,19 @@ Class Object_Model extends CI_Model {
             //'blockeddate' => date("Y-m-d H:i:s"),
             'unblockeddate' => date("Y-m-d H:i:s"),
             'userblock' => null,
-            'userStoryJira' => null,
-            'dev' => null            
+            //'userStoryJira' => null,
+            'dev' => null
         );
 
-
         $this->db->update('object', $data, 'id = '.$id);
-        
 
         $objectReturn[0]->action = "Desbloqueo";
         $objectReturn[0]->unblockeddate = date("Y-m-d H:i:s");
         $objectReturn[0]->id = null;
 
         $this->db->insert('historial', $objectReturn[0]);
+
+        $lobby = $this->Lobby_Model->remove($id);
     }
 
 }

@@ -11,7 +11,7 @@
                 <h1>Bienvenido <?php echo $username; ?>!</h1>
             </div>
             <div class="row justify-content-md-center mt-4">
-                <a class="btn btn-primary" href="index.php/BlockObject">
+                <a class="btn btn-primary" href="index.php/Block_Controller">
                     <span class="oi oi-arrow-thick-top"></span>
                     Bloquear
                 </a>
