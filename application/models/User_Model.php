@@ -47,6 +47,30 @@ Class User_Model extends CI_Model {
         $this->db->update('USER', array('PASSWORD' => MD5($password)), 'id = ' . $this->session->userdata('id'));
     }
 
+    function getUser($id){
+        log_message('debug', 'Modelo User_Model Metodo getUser');
+
+        $this->db->where('id', $id);
+        $query = $this->db->get('user');
+
+        if ($query->num_rows() == 1) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    function updateProfile($username, $name, $dev, $email){
+        log_message('debug', 'Modelo User_Model Metodo updateProfile');
+
+        if ($username != '') $data['user'] = $username;
+        if ($name != '') $data['name'] = $name;
+        if ($email != '') $data['email'] = $email;
+        if ($dev != '') $data['dev'] = $dev;
+
+        $this->db->update('user', $data, 'id = '. $this->session->userdata('id'));
+    }
+
 }
 
 ?>

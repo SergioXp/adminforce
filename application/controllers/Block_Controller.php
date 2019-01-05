@@ -31,45 +31,34 @@ class Block_Controller extends CI_Controller {
         $nameMultiple = $this->input->post('nameMultiple');
         $type = $this->input->post('type');
         $object = $this->input->post('object');
-        //$userStoryJira = $this->input->post('userStoryJira');
         $dev = $this->input->post('dev');
 
         if ($name == '' && $nameMultiple != ''){
             $arrayObjetos = explode(PHP_EOL, $nameMultiple);
 
-            $arrayReturn = array();
-
             foreach($arrayObjetos as $object){
-                //$return = $this->Object_Model->blockObject($object, $type, $object, $userStoryJira, $dev);
-                $return = $this->Object_Model->blockObject($object, $type, $object, $dev);
-
-                $arrayReturn[$object] = $return;
+                $this->Object_Model->blockObject($object, $type, $object, $dev);
             }
 
-            $arrayReturn['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
+            $this->Object_Model->getObjectsBlockByUser();
 
-            log_message('debug', 'SALIDA TOTAL' . print_r($arrayReturn, true));
-
-            $this->load->view('form_object_view', $arrayReturn);
+            redirect('Block_Controller');
 
         } else {
-            //$return = $this->Object_Model->blockObject($name, $type, $object, $userStoryJira, $dev);
-            $return = $this->Object_Model->blockObject($name, $type, $object, $dev);
+            $this->Object_Model->blockObject($name, $type, $object, $dev);
 
-            $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
+            $this->Object_Model->getObjectsBlockByUser();
 
-            log_message('debug', 'SALIDA TOTAL' . print_r($return, true));
-
-            $this->load->view('form_object_view', $return);
+            redirect('Block_Controller');
         }
     }
 
     function unblock($id){
         log_message('debug', 'unblock');
 
-        $return = $this->Object_Model->unblockObject($id);
-        $return['objectsByUser'] = $this->Object_Model->getObjectsBlockByUser();
-        $this->load->view('form_object_view', $return);
+        $this->Object_Model->unblockObject($id);
+        $this->Object_Model->getObjectsBlockByUser();
+        redirect('Block_Controller');
     }
 }
 ?>

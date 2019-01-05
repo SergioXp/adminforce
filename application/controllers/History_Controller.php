@@ -62,9 +62,15 @@ class History_Controller extends CI_Controller {
             $data['links'] = $this->pagination->create_links();
         }
 
-        log_message('debug','historial!! '. $this->uri->segment(3));
-
         $this->load->view('Form_History_View', $data);
     }
+
+    public function find ($search){
+        log_message('debug','index find');
+
+        $data['objectsByUser'] = $this->History_Model->search($search);
+
+        $this->load->view('Form_History_View', $data);
+	}
 }
 ?>

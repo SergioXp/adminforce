@@ -4,10 +4,7 @@
         <title>Gesti&oacute;n de Entornos Salesforce - Bloqueo de Objeto</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <script
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
@@ -16,7 +13,15 @@
             </div>
             <div class="row">
 
-                <div class="col col-md-12 mt-5 col-s-1">
+                <div class="col col-md-12 mt-5">
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button" onclick="search()" id="button-addon1">Buscar</button>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Buscar objeto" onkeypress="prueba(event)" aria-label="" aria-describedby="button-addon1" id="searchText">
+                    </div>
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -63,4 +68,23 @@
             </div>
         </div>
     </body>
+
+    <script type="text/javascript">
+        function search(){
+            var searchText = $('#searchText').val();
+            if (searchText != ''){
+                var url = "<?php echo site_url('History_Controller/find/" + searchText +"'); ?>";
+                window.location = url;
+            } else {
+                window.location = "<?php echo site_url('History_Controller'); ?>";
+            }
+        }
+
+        function prueba(e){
+            if (e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                search();
+            }
+        }
+    </script>
 </html>

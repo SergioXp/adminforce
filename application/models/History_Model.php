@@ -33,6 +33,25 @@ Class History_Model extends CI_Model {
 		//if ($userStoryCopado != null) $this->db->where('userStoryCopado', $userStoryCopado);
 		//if ($userStoryJira != null) $this->db->where('userStoryJira', $userStoryJira);
 		if ($dev != null) $this->db->where('historial.dev', $dev);
+		$this->db->order_by('historial.blockeddate, historial.unblockeddate', 'desc');
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0){
+            return $query->result('History_Model');
+        } else {
+            return false;
+        }
+	}
+
+	function search ($searchText){
+		log_message('debug', 'Modelo History_Model Metodo search()');
+
+        $this->db->select('historial.id, historial.name as `name`, historial.type, historial.object, historial.action, historial.userblock, user.name as `username`, historial.blockeddate, historial.unblockeddate, historial.dev');
+		$this->db->from('historial');
+		$this->db->join('user', 'historial.userblock = user.id');
+		$this->db->like('historial.name', $searchText);
+		$this->db->order_by('historial.blockeddate, historial.unblockeddate', 'desc');
 
         $query = $this->db->get();
 
